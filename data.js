@@ -11,7 +11,7 @@ async function getData(dFecha) {
     params.append('Parametros', JSON.stringify({
         "Clase": "ClsProViajes",
         "Metodo": "GetEntregasSeguimiento",
-        "Parametros": { "dFecha": "20260318" }
+        "Parametros": { "dFecha": dFecha }
     }));
 
     try {

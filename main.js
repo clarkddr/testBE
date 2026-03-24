@@ -6,13 +6,30 @@ const { getDates } = require('./dates');
 const fs = require('fs');
 const path = require('path');
 
-// Obtenemos fecha de hace 7 días para enviarla a la api. 
-const dates = getDates();
-console.log(dates);
-
 async function execute() {
-    // Obtenemos rows de la API    
-    const rows = await getData(dFecha);
+    // Obtenemos fecha de hace 7 días para enviarla a la api. 
+    const dates = getDates();
+    console.log(`Se obtendrán registros de las fechas: ${dates}`);
+
+    // Obtenemos registros de la API dia por dia, iterando en dates 
+    let rows = [];
+    for (const date of dates) {
+        console.log(`Consultando: ${date}`);
+        try {
+            const response = await getData(date);            
+            // Verificamos la ruta del JSON: Result -> Viajes
+            if (Array.isArray(response) && response.length > 0) {
+                rows.push(...response);
+                console.log(`Agregados ${response.length} viajes.`);
+            } else {
+                console.log(`No hubo viajes en la fecha ${date}`);
+            }
+        } catch (error) {
+            console.error(`Error en fecha ${date}:`, error.message);
+        }
+    }
+    // const rows = await getData(dFecha);
+
     // Archivo Local de pruebas
     // const res = getJson();
     // const rows = res && res.Result ? res.Result.Viajes : [];
@@ -53,4 +70,4 @@ function getJson() {
 }
 
 // Ejecutar todo el proceso
-// execute();
+execute();
