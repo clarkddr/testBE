@@ -1,0 +1,28 @@
+const axios = require('axios');
+require('dotenv').config();
+
+async function getData() {    
+     const url = 'https://gmterpv8-51.gmtransport.co/GMTERPV8_PROCESOSESPECIALES_WEB/ES/API.awp'; 
+
+    const params = new URLSearchParams();
+    params.append('OutputFormat', 'JSON');
+    params.append('RFCEmpresa', process.env.RFC_EMPRESA);
+    params.append('ApiKey', process.env.API_KEY);
+    params.append('Parametros', JSON.stringify({
+        "Clase": "ClsProViajes",
+        "Metodo": "GetEntregasSeguimiento",
+        "Parametros": { "dFecha": "20260301" }
+    }));
+
+    try {
+        const res = await axios.post(url, params, {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        });
+        return res.data.Result.Viajes;
+    } catch (error) {
+        console.error("Error:", error.response ? error.response.status : error.message);
+        return [];
+    }
+}
+
+module.exports = { getData };
