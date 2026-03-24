@@ -1,10 +1,10 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
-async function sendEmail(rutaArchivo) {
+async function sendEmail(filename) {
     // Configuración de Mail 
     const transporter = nodemailer.createTransport({
-        host: process.env.EMAIL_SERVER,
+        host: process.env.EMAIL_HOST,
         port: process.env.EMAIL_PORT,
         auth: {
             user: process.env.EMAIL_USER,
@@ -17,7 +17,7 @@ async function sendEmail(rutaArchivo) {
         to: "cliente-prueba@ejemplo.com",
         subject: "Reporte de Viajes Pendientes",
         text: "Adjunto reporte de los últimos 7 días.",
-        attachments: [{ path: rutaArchivo }]
+        attachments: [{ path: filename }]
     };
 
     try {

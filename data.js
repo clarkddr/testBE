@@ -1,7 +1,7 @@
 const axios = require('axios');
 require('dotenv').config();
 
-async function getData() {    
+async function getData(dFecha) {    
      const url = 'https://gmterpv8-51.gmtransport.co/GMTERPV8_PROCESOSESPECIALES_WEB/ES/API.awp'; 
 
     const params = new URLSearchParams();
@@ -11,7 +11,7 @@ async function getData() {
     params.append('Parametros', JSON.stringify({
         "Clase": "ClsProViajes",
         "Metodo": "GetEntregasSeguimiento",
-        "Parametros": { "dFecha": "20260301" }
+        "Parametros": { "dFecha": "20260318" }
     }));
 
     try {

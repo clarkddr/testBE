@@ -30,10 +30,10 @@ async function createWorksheet(data) {
 
     // 4. Guardar el archivo
     try {
-        const nombreArchivo = `./files/Reporte_Viajes_${Date.now()}.xlsx`;
-        await workbook.xlsx.writeFile(nombreArchivo);
-        console.log(`✅ Archivo generado con éxito: ${nombreArchivo}`);
-        return nombreArchivo;
+        const filename = `./files/Reporte_Viajes_${Date.now()}.xlsx`;
+        await workbook.xlsx.writeFile(filename);
+        console.log(`✅ Archivo generado con éxito: ${filename}`);
+        return filename;
     } catch (error) {
         console.error("❌ Error al escribir el Excel:", error.message);
     }
