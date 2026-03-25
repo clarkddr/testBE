@@ -3,9 +3,6 @@ const { createWorksheet } = require('./excel');
 const { sendEmail } = require('./email');
 const { getDates } = require('./dates');
 
-const fs = require('fs');
-const path = require('path');
-
 async function execute() {
     // Obtenemos fecha de hace 7 días para enviarla a la api. 
     const dates = getDates();
@@ -17,9 +14,9 @@ async function execute() {
         console.log(`Consultando: ${date}`);
         try {
             const response = await getData(date);            
-            // Verificamos la ruta del JSON: Result -> Viajes
+            // Verificamos la respuesta
             if (Array.isArray(response) && response.length > 0) {
-                rows.push(...response);
+                rows.push(...response);                
                 console.log(`Agregados ${response.length} viajes.`);
             } else {
                 console.log(`No hubo viajes en la fecha ${date}`);
@@ -28,45 +25,36 @@ async function execute() {
             console.error(`Error en fecha ${date}:`, error.message);
         }
     }
-    // const rows = await getData(dFecha);
 
-    // Archivo Local de pruebas
-    // const res = getJson();
-    // const rows = res && res.Result ? res.Result.Viajes : [];
-
-    // 2. Si no hay datos, terminamos
+    // Si no hay datos, terminamos
     if (!rows || rows.length === 0) {
         console.log("No se obtuvieron registros de la API.");
         return;
     }
-    
-    console.log(`Se obtuvieron ${rows.length} registros.`);
 
-    // Generamos el archivo Excel
-    const filename = await createWorksheet(rows);
+    // Filtramos los resultados conforme lo solicitado, IdCliente == 402 
+    // y Salida con valor, Llegada sin valor.   
+    const filteredRows = rows.filter(row => 
+        row.IdCliente == 402 &&
+        !row.Salida.startsWith('0000') &&
+        row.Llegada.startsWith('0000')
+    );
+
+    
+    console.log(`Se obtuvieron ${filteredRows.length} registros.`);
+
+    // Generamos el archivo Excel y agregamos las columnas "fijas"
+    const dataForExcel = filteredRows.map(row => ({
+        ...row,
+        "PRUEBA" : "PRUEBA",
+        "NS" : "NS"
+    }));
+
+    const filename = await createWorksheet(dataForExcel);
 
     // Enviamos por correo
     // await sendEmail(filename);
 
-}
-
-function getJson() {
-    try {
-        const filename = path.join(__dirname, 'files', 'respuesta_api.json');
-        
-        // Verificamos si el archivo existe antes de leerlo
-        if (!fs.existsSync(filename)) {
-            console.error("El archivo no existe en:", filename);
-            return null;
-        }
-
-        const content = fs.readFileSync(filename, 'utf8');
-        return JSON.parse(content);
-        
-    } catch (error) {
-        console.error("Error al leer o parsear el JSON:", error.message);
-        return null;
-    }
 }
 
 // Ejecutar todo el proceso
