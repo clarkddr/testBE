@@ -4,7 +4,7 @@ const { sendEmail } = require('./email');
 const { getDates } = require('./dates');
 
 async function execute() {
-    // Obtenemos fecha de hace 7 días para enviarla a la api. 
+    // Obtenemos array de fechas de hace 7 días para enviarla a la api. 
     const dates = getDates();
     console.log(`Se obtendrán registros de las fechas: ${dates}`);
 
@@ -36,12 +36,15 @@ async function execute() {
     // y Salida con valor, Llegada sin valor.   
     const filteredRows = rows.filter(row => 
         row.IdCliente == 402 &&
-        !row.Salida.startsWith('0000') &&
-        row.Llegada.startsWith('0000')
-    );
-
-    
+        !row.Salida.startsWith('0000') /* &&
+        row.Llegada.startsWith('0000') */
+    );    
     console.log(`Se obtuvieron ${filteredRows.length} registros.`);
+
+    // Ordenamos el listado
+    filteredRows.sort((a,b) => {
+        return new Date(b.Salida) - new Date(a.Salida)
+    });
 
     // Generamos el archivo Excel y agregamos las columnas "fijas"
     const dataForExcel = filteredRows.map(row => ({

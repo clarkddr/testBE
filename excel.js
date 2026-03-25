@@ -10,13 +10,14 @@ async function createWorksheet(data) {
 
     // 1. Definir Columnas
     worksheet.columns = [
-        { header: 'ClientID', key: 'IdCliente', width: 15 },
         { header: 'External ID', key: 'PRUEBA', width: 15 },
-        { header: 'Identifier 1', key: 'NoViajeCliente', width: 25 },
-        { header: 'Truck Number', key: 'CodigoUnidadCamion', width: 20 },
-        { header: 'Trailer Number', key: 'CodigoUnidadCarga1', width: 20 },
-        { header: 'Located At', key: 'FechaHoraEstatuViaje', width: 20 },
-        { header: 'Status Reason Code', key: 'NS', width: 25 },
+        { header: 'Identifier 1', key: 'NoViajeCliente', width: 15 },
+        { header: 'Truck Number', key: 'CodigoUnidadCamion', width: 15 },
+        { header: 'Trailer Number', key: 'CodigoUnidadCarga1', width: 15 },
+        { header: 'Located At', key: 'FechaHoraEstatuViaje', width: 25 },
+        { header: 'Status Reason Code', key: 'NS', width: 10 },
+        // Se pueden agregar los siguientes campos para comprobacion
+        { header: 'ClientID', key: 'IdCliente', width: 10 },
         { header: 'Salida', key: 'Salida', width: 25 },
         { header: 'Llegada', key: 'Llegada', width: 25 }
     ];

@@ -1,5 +1,5 @@
 // Se genera un array de fechas para iterarla en el main
-function getDates(daysBack = 1) {
+function getDates(daysBack = 6) {
     const dates = [];
     for (let i = 0; i <= daysBack; i++) {
         const d = new Date();
