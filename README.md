@@ -1,3 +1,4 @@
+``` mermaid
 graph TD
     %% Define Styles
     classDef timer fill:#f9f,stroke:#333,stroke-width:2px;
