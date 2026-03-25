@@ -1,3 +1,4 @@
+const logger = require('./logger');
 const ExcelJS = require('exceljs');
 
 async function createWorksheet(data) {
@@ -37,11 +38,11 @@ async function createWorksheet(data) {
     try {
         const filename = `./files/Reporte_Viajes_${Date.now()}.xlsx`;
         await workbook.xlsx.writeFile(filename);
-        console.log(`Archivo generado con éxito: ${filename}`);
+        logger.info(`Archivo generado con éxito: ${filename}`);
         return filename;
     } catch (error) {
-        console.error("Error al escribir el Excel:", error.message);
+        logger.error(`Error al escribir el Excel: ${error.message}.`);
     }
 }
 
-module.exports = { createWorksheet };
+module.exports = createWorksheet;

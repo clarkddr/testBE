@@ -14,4 +14,4 @@ function getDates(daysBack = 6) {
     }
     return dates;
 }
-module.exports = { getDates };
+module.exports = getDates;

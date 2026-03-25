@@ -1,3 +1,4 @@
+const logger = require('./logger');
 const axios = require('axios');
 require('dotenv').config();
 
@@ -20,9 +21,10 @@ async function getData(dFecha) {
         });
         return res.data.Result.Viajes;
     } catch (error) {
-        console.error("Error:", error.response ? error.response.status : error.message);
+        const errorDetails = error.response ? error.response.status : error.message;
+        logger.error(`Error: ${errorDetails}.`);
         return [];
     }
 }
 
-module.exports = { getData };
+module.exports = getData;

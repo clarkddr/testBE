@@ -1,3 +1,4 @@
+const logger = require('./logger');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
@@ -22,12 +23,12 @@ async function sendEmail(filename) {
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log("Envío de Email exitoso");
+        logger.info("Envío de Email exitoso");
         return true;
     } catch (error) {
-        console.error("Error en mailer:", error.message);
+        logger.error(`Error en mail: ${error.message}`);
         return false;
     }
 }
 
-module.exports = { sendEmail };
+module.exports = sendEmail;

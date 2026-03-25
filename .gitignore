@@ -1,5 +1,6 @@
 node_modules/
 files/
+logs/
 *.xlsx
 .env
 npm-debug.log*
