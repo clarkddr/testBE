@@ -9,7 +9,7 @@ async function createWorksheet(data) {
         ? data 
         : [];
 
-    // 1. Definir Columnas
+    // Se mapean los campos que entrega la API a nombres legibles segun la especificación.
     worksheet.columns = [
         { header: 'External ID', key: 'PRUEBA', width: 15 },
         { header: 'Identifier 1', key: 'NoViajeCliente', width: 15 },
@@ -23,10 +23,10 @@ async function createWorksheet(data) {
         { header: 'Llegada', key: 'Llegada', width: 25 }
     ];
 
-    // 2. Agregar los datos
+    // Agregar los datos
     worksheet.addRows(finalData);
 
-    // 3. Formato de cabecera
+    // Formato de cabecera
     worksheet.getRow(1).font = { bold: true };
     worksheet.getRow(1).fill = {
         type: 'pattern',

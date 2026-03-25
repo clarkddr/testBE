@@ -1,4 +1,4 @@
-// Se genera un array de fechas para iterarla en el main
+// Se genera un array de fechas en formato YYYYMMDD como la necesita la API.
 function getDates(daysBack = 6) {
     const dates = [];
     for (let i = 0; i <= daysBack; i++) {
