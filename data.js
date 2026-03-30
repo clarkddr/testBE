@@ -7,8 +7,8 @@ async function getData(dFecha) {
 
     // El API espera los parámetros en formato x-www-form-urlencoded
     const params = new URLSearchParams();
-    params.append('OutputFormat', 'JSON');    
-    // params.append('RFCEmpresa', process.env.RFC_EMPRESA);
+    params.append('OutputFormat', 'JSON');
+    params.append('RFCEmpresa', process.env.RFC_EMPRESA);
     params.append('ApiKey', process.env.API_KEY);
     params.append('Parametros', JSON.stringify({
         "Clase": "ClsProViajes",
@@ -24,7 +24,7 @@ async function getData(dFecha) {
         const data = res.data.Result.Viajes.map(row=> ({
             ...row,
             "PRUEBA" : "PRUEBA",
-            "NS" : "NS"            
+            "NS" : "NS"
         }));
         return data;
     } catch (error) {

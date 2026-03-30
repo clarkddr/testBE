@@ -6,8 +6,7 @@ const path = require('path');
 const fileTransport = new winston.transports.DailyRotateFile({
     filename: 'logs/app-%DATE%.log',
     datePattern: 'YYYY-MM-DD',
-    maxFiles: '15d'
-    
+    maxFiles: '15d'    
 });
 
 const logger = winston.createLogger({

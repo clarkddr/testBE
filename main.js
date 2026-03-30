@@ -5,13 +5,16 @@ const getDates = require('./dates');
 const logger = require('./logger');
 const fs = require('fs');
 
+
+// Función principal que ejecuta todo el proceso
 async function execute() {
     // Obtenemos array de fechas de hace 7 días para enviarla a la api. 
     logger.info(`--- Iniciando proceso de obtención de datos ---`);
-    const dates = getDates(1);
+    const dates = getDates();
     logger.info(`Se intentará obtener registros de las fechas: ${dates}`);
     // Obtenemos registros de la API dia por dia, iterando en dates 
     let rows = [];
+    // TODO: Enviar esta funcion fuera de execute()
     for (const date of dates) {
         logger.info(`Consultando: ${date}`);
         try {
@@ -21,7 +24,7 @@ async function execute() {
             //  si no, mostramos un mensaje de que no hubo datos para esa fecha
             if (Array.isArray(response) && response.length > 0) {
                 rows.push(...response);                
-                logger.info(`Agregados ${response.length} viajes.`);
+                logger.info(`Agregados ${response.length} registros.`);
             } else {
                 logger.info(`No hubo viajes en la fecha ${date}`);
             }
@@ -29,7 +32,6 @@ async function execute() {
             logger.error(`Error en fecha ${date}: ${error.message}.`);
         }
     }
-
 
 
     // Si no hay datos después de la consulta, terminamos
@@ -40,9 +42,11 @@ async function execute() {
 
     // Filtramos los resultados conforme lo solicitado, IdCliente == 402 
     // y Salida con valor, Llegada sin valor.
+
+    // TODO: Sacar el StartsWith y hacer en Utils "IsValidDate()" || ClientToFilter = 402;
     logger.info(`--- Aplicando filtros a los datos obtenidos ---`);   
     const filteredRows = rows.filter(row => 
-        row.IdCliente == 402 &&
+        row.IdCliente == 402 && 
         !row.Salida.startsWith('0000')  &&
         row.Llegada.startsWith('0000') 
     );
@@ -76,6 +80,8 @@ async function execute() {
 
 }
 
+
+// TODO: Enviar a utils
 async function deleteFile(filename) {
     try {
         await fs.promises.unlink(filename);
