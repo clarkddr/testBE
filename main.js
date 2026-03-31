@@ -12,6 +12,7 @@ const isActiveTrip = require('./utils/isActiveTrip');
 async function execute() {
     // Asignamos el IdCliente del que se hará el filtro. 
     const IdCliente = 402;
+    const email = 'cliente@cliente.com';
     
     // Obtenemos array de fechas de hace 7 días para enviarla a la api. 
     logger.info(`--- Iniciando proceso de obtención de datos ---`);
@@ -46,14 +47,14 @@ async function execute() {
 
     // Se genera el archivo excel llamando la funcion y pasamos el array filtrado, 
     // la función devuelve el nombre del archivo generado, si no se genera, termina el proceso
-    const filename = await createWorksheet(rows);
+    const filename = await createWorksheet(filteredRows);
     if (!filename) {
         logger.error("El generador de Excel no devolvió un nombre de archivo. Cancelando envío.");
         return;
     }  
 
     // Enviamos por correo
-    await sendEmail(filename);
+    await sendEmail(email,filename);
 
     // Eliminamos el archivo
     await deleteFile(filename);

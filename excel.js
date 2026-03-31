@@ -1,5 +1,6 @@
 const logger = require('./logger');
 const ExcelJS = require('exceljs');
+const fs = require('fs');
 
 async function createWorksheet(data) {
     const workbook = new ExcelJS.Workbook();
@@ -36,7 +37,12 @@ async function createWorksheet(data) {
 
     // 4. Guardar el archivo
     try {
-        const filename = `./files/Reporte_Viajes_${Date.now()}.xlsx`;
+        const dir = './files';
+        // Verificar si la carpeta existe, si no, crearla
+        if (!fs.existsSync(dir)){
+            fs.mkdirSync(dir, { recursive: true });
+        }
+        const filename = `${dir}/Reporte_Viajes_${Date.now()}.xlsx`;
         await workbook.xlsx.writeFile(filename);
         logger.info(`Archivo generado con éxito: ${filename}`);
         return filename;
