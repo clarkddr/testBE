@@ -21,11 +21,30 @@ async function getData(dFecha) {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         });
         // Agregamos los campos fijos "PRUEBA" y "NS" a cada registro, como se solicitó
-        const data = res.data.Result.Viajes.map(row=> ({
-            ...row,
-            "PRUEBA" : "PRUEBA",
-            "NS" : "NS"
-        }));
+        const data = res.data.Result.Viajes.map(row=> {
+            // Extraemos solo los datos que se necesitarán
+            const {
+                NoViajeCliente,
+                CodigoUnidadCamion,
+                CodigoUnidadCarga1,
+                FechaHoraEstatuViaje,
+                IdCliente,
+                Salida,
+                Llegada
+            } = row;
+            // Retornamos un nuevo objeto junto con los campos fijos. 
+            return {
+                NoViajeCliente,
+                CodigoUnidadCamion,
+                CodigoUnidadCarga1,
+                FechaHoraEstatuViaje,
+                "PRUEBA":"PRUEBA",
+                "NS":"NS",
+                IdCliente,
+                Salida,
+                Llegada,
+            }
+        });
         return data;
     } catch (error) {
         const errorDetails = error.response ? error.response.status : error.message;
